@@ -1,0 +1,56 @@
+This network uses reninforment learning.
+
+Think of DQN like teaching a robot to play a video game through trial and error:
+
+The Basics:
+
+The agent (like our robot) looks at the game screen (state)
+It decides what action to take (move left, right, jump, etc.)
+It gets points (rewards) for good moves and penalties for bad ones
+The "Q" Part
+
+Q stands for "Quality" of an action in a given state
+Like a cheat sheet that says: "In situation X, doing action Y will give Z points"
+The Q-value predicts total future rewards for each action
+The "Deep" Part
+
+Uses a deep neural network to learn these Q-values
+Can handle complex situations with lots of information
+Learns patterns just like how humans learn from experience
+
+-----
+Simple code from chatgpt:
+
+import numpy as np
+
+class SimpleDQN:
+    def __init__(self, states, actions):
+        self.q_table = np.zeros((states, actions))
+    
+    def choose_action(self, state):
+        # Pick action with highest Q-value
+        return np.argmax(self.q_table[state])
+    
+    def learn(self, state, action, reward, next_state):
+        # Simple Q-learning update
+        learning_rate = 0.1
+        discount = 0.95
+        old_value = self.q_table[state, action]
+        next_max = np.max(self.q_table[next_state])
+        
+        # Q-learning formula
+        new_value = (1 - learning_rate) * old_value + \
+                   learning_rate * (reward + discount * next_max)
+        self.q_table[state, action] = new_value
+
+-----
+The mathematical formula for Q-learning can be written as:
+
+Q(s,a)←(1−α)Q(s,a)+α(r+γ.maxQ(s′, a′))
+Where:
+
+Q(s,a) is the Q-value for state 's' and 'a' action. 
+α is the learning rate.
+r is the reward.
+γ is the discount factor.
+s′ is the next state.
